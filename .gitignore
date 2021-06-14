@@ -1,1 +1,8 @@
-*.env
+# Config
+.env
+
+# Visual Studio Code
+.vscode/
+
+# Pycache from 
+__pycache__/
