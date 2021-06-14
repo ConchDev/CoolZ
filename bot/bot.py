@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 
 load_env = load_dotenv()
 
+# what
+
 class Client(commands.Bot):
     def __init__(self):
         intents = discord.Intents.all()
