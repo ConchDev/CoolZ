@@ -3,6 +3,9 @@ import os
 from itertools import cycle
 import discord
 from discord.ext import commands, tasks
+from dotenv import load_dotenv
+
+load_env = load_dotenv()
 
 class Client(commands.Bot):
     def __init__(self):
@@ -54,4 +57,6 @@ class Client(commands.Bot):
         self.load_cogs()
         print("Running bot...")
         
-        super().run("ODQzNjMyMDgxNTM1MTA3MDgz.YKGrmg.xLvbHEm4jY-hA6L2I0TH4x30Kqw", reconnect=True)
+        token = os.getenv("TOKEN")
+
+        super().run(token, reconnect=True)
