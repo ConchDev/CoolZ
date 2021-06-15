@@ -17,7 +17,6 @@ class Client(commands.Bot):
     
 
     def load_cogs(self):
-        self.remove_command('help')
         print("Loading All cogs...")
         print("------")
         for filename in os.listdir(f"./bot/cogs"):

@@ -1,10 +1,11 @@
+import asyncio
 import discord
-from discord.embeds import _EmptyEmbed
 from discord.ext import commands
 import shortuuid as uuid
 import aiosqlite
 from discord import Webhook, AsyncWebhookAdapter
 import aiohttp
+import traceback
 
 
 class Mod(commands.Cog):
@@ -152,26 +153,20 @@ class Mod(commands.Cog):
 
     @commands.command()
     async def end(self, ctx):
-        print(ctx.channel.name.startswith('modmail'))
-        print(ctx.channel.type)
         try:
-            if ctx.channel.type is not discord.ChannelType.private or not ctx.channel.name.startswith('modmail'):
-                return await ctx.send("To close a modmail ticket, you have to be in a DM or modmail channel.")
+            if not ctx.channel.name.startswith('modmail'):
+                return await ctx.send("Only ticket handlers can close modmail tickets.")
         except:
-            pass
+            return await ctx.send("Only ticket handlers can close modmail tickets.")
+            
+        await self.end_modmail_session(ctx.channel.id) 
 
-        if ctx.channel.type is discord.ChannelType.private:
-            e = await self.end_modmail_session(ctx.author.id)
-        else:
-            e = await self.end_modmail_session(ctx.author.id)
+        await ctx.send("Successfully closed the modmail session. The channel will be deleted in ten seconds.")
+        await asyncio.sleep(10)
 
-        if e is False:
-            return await ctx.send("You do not have an open modmail session.")
+        await ctx.channel.delete()
 
-        else:
-            return await ctx.send("Successfully closed the modmail session.")
 
-        
-
+    
 def setup(client):
     client.add_cog(Mod(client))
