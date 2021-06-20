@@ -5,7 +5,6 @@ import shortuuid as uuid
 import aiosqlite
 from discord import Webhook, AsyncWebhookAdapter
 import aiohttp
-import traceback
 
 
 class Mod(commands.Cog):
@@ -37,6 +36,7 @@ class Mod(commands.Cog):
         await cursor.close()
         await db.close()
 
+        await channel.send(self.client.get_role(853297538161573928).mention)
         await channel.send(embed=embed)
 
     async def check_modmail_session(self, user_id):
@@ -135,7 +135,7 @@ class Mod(commands.Cog):
         conf = await self.client.wait_for('reaction_add', check=check, timeout=30)
         if str(conf[0].emoji) == '❌':
             embed=discord.Embed(title="Cancelling your modmail request...")
-            await self.end_modmail_session(self, message.author.id)
+            await self.end_modmail_session(message.author.id)
             return await message.channel.send(embed=embed)
         elif str(conf[0].emoji) == '✅':
             pass
